@@ -116,18 +116,8 @@ serial.on("open", function() {
 		}
 
 		if (config.verbose) {
-                        // BEGIN JCC 10 Aug 15 - show the date/time with the readings
-                        var dt = new Date();
-                        // getMonth() returns a 0-based number.
-			var month = dt.getMonth()+1;
-			var day = dt.getDate();
-			var year = dt.getFullYear();
-			console.log("Node " + nodeid + " at " + dt + ":");
+			console.log("Node " + nodeid + ":");
 			console.log(curReadings);
-                        // Tim's original:
-			//console.log("Node " + nodeid + ":");
-			//console.log(curReadings);
-                       // END JCC - change 10 Aug 15
 		}
 
 		// publish to EmonCMS
