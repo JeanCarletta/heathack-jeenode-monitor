@@ -16,31 +16,32 @@ args = parser.parse_args()
 print(args.logfile)
 
 # Set this to the serial port of your Jeelink and baud rate, 9600 is standard emontx baud rate
-#ser = serial.Serial('/dev/ttyUSB0', 9600)
+ser = serial.Serial('/dev/ttyUSB0', 9600)
 # or for the Ciseco radio
-ser = serial.Serial('/dev/ttyS0',9600)
+#ser = serial.Serial('/dev/ttyS0',9600)
 
 while 1:
  # Read in line of readings from Jeelink serial
- linestr = ser.readline()
- # Remove the new line at the end
- linestr = linestr.rstrip()
- # our data format for temperature and humidity etc. looks like this:
- #heathack 23 4 1 16.6
- #heathack NODENUM SENSORNUM READINGTYPE READING
- # where READINGTYPE is 1 for temp
- # for current sensing, it's still space-delimited:
- # hhpower NUM ...NUM
- print(linestr)
+ ##python2: readline returns a string.  
+ ##python3: readline returns binary that needs decoded to a string.
+ ## in python3, unlike python2, readline returns binary 
+   linestr = ser.readline().decode().rstrip()
+   # our data format for temperature and humidity etc. looks like this:
+   #heathack 23 4 1 16.6
+   #heathack NODENUM SENSORNUM READINGTYPE READING
+   # sensor num isn't very useful.  ReadingType is 1 for temperature, 2 for RH
+   #print(linestr)
  
- # Split the line at the whitespaces
- array = linestr.split(' ') # python data type: list
+   # Split the line at the whitespaces
+   array = linestr.split(' ') # python data type: list
+   #print(len(array[0]))
+   #print(len('heathack'))
 
-# if (array[0] == ('hhpower' or 'heathack')): 
-  
-with open(args.logfile, 'a') as f:
-   f.write(linestr)
-   f.write(" ")
-   f.write(str(datetime.now()))
-   f.write("\n")
-   f.close()
+   if (array[0] == 'heathack'):
+      print("found a reading")
+      with open(args.logfile, 'a') as f:
+         f.write(linestr)
+         f.write(" ")
+         f.write(str(datetime.now().strftime('%Y%m%d %H:%M:%S')))
+         f.write("\n")
+         f.close()
