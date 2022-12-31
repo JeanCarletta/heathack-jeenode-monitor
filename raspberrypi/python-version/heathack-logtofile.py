@@ -8,13 +8,12 @@
 # website says that's GNU GPL.
 import argparse
 import serial, sys, string
-import httplib
 from datetime import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument("logfile", help="path and name of file to log the data - new data will be appended to it", type=str)
 args = parser.parse_args()
-print args.logfile
+print(args.logfile)
 
 # Set this to the serial port of your Jeelink and baud rate, 9600 is standard emontx baud rate
 #ser = serial.Serial('/dev/ttyUSB0', 9600)
@@ -32,7 +31,7 @@ while 1:
  # where READINGTYPE is 1 for temp
  # for current sensing, it's still space-delimited:
  # hhpower NUM ...NUM
- print linestr
+ print(linestr)
  
  # Split the line at the whitespaces
  array = linestr.split(' ') # python data type: list
