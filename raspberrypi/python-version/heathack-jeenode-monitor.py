@@ -28,7 +28,7 @@ sys.stderr.write("Temp and RH Logging: Starting at "+ datetime.now().strftime('%
 # Set this to the serial port of your Jeelink and baud rate, 9600 is standard emontx baud rate
 #ser = serial.Serial('/dev/ttyUSB0', 9600) for CISECO radio
 
-ser = serial.Serial(ars.serialport,args.baudrate)
+ser = serial.Serial(args.serialport,args.baudrate)
 
 
 API_KEY         = 'INSERT_KEY_HERE'
